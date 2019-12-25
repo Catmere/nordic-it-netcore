@@ -1,0 +1,1 @@
+# nordic-it-netcore
