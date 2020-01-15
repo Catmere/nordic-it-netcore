@@ -4,9 +4,32 @@ using static System.Console;
 namespace ConsoleApp1
 {
     class Program
-    {
-        static void Main(string[] args)
+	{
+		static void OutputWithPaddingRight(string outputCell, int outputCellMaxLength)
+		{
+			//метод выводит ячейку таблицы, выровняв значение по правому краю
+			int outputCellCurrentLength;
+			outputCellCurrentLength = outputCell.Length;
+			if (outputCell.Length < outputCellMaxLength)
+			{
+				for (int i = 0; i < outputCellMaxLength - outputCellCurrentLength; i++)
+					outputCell = " " + outputCell;
+			}
+			Write(outputCell + " ");
+		}
+
+		static void ArrayFormation(int[] array, int length, int start, int stepRow)
+		{
+			//метод банально формирует массивы строки и столбца
+			for (int i = 0; i < length; i++)
+			{
+				array[i] = start + i * stepRow;
+			}
+		}
+
+		static void Main(string[] args)
         {
+
             int rowLength, rowStart, columnLength, columnStart, stepRowColumn;
 			Write("Введите первое число строки: ");
 			rowStart = int.Parse(ReadLine());
@@ -18,19 +41,15 @@ namespace ConsoleApp1
 			columnLength = int.Parse(ReadLine());
 			Write("Введите шаг сетки: ");
 			stepRowColumn = int.Parse(ReadLine());
+
 			int[] multiplicatorRow = new int[rowLength];
+			ArrayFormation(multiplicatorRow, rowLength, rowStart, stepRowColumn);
 			int[] multiplicatorColumn = new int[columnLength];
-			for (int i = 0; i< rowLength; i++)
-			{
-				multiplicatorRow[i] = rowStart + i*stepRowColumn;
-			}
-			for (int i = 0; i < columnLength; i++)
-			{
-				multiplicatorColumn[i] = columnStart + i*stepRowColumn;
-			}
+			ArrayFormation(multiplicatorColumn, columnLength, columnStart, stepRowColumn);
+			
 			int[,] resultTable = new int[rowLength, columnLength];
 			int outputCellMaxLength = 0;
-			for (int i = 0; i < rowLength; i++) //для красивого вывода, проверяем, сколько символов займет самый длинный элемент массива
+			for (int i = 0; i < rowLength; i++) //для красивого вывода при формировании таблицы проверяем, сколько символов займет самый длинный элемент массива - будем выравнивать по последнему символу
 			{
 				for (int j = 0; j < columnLength; j++)
 				{
@@ -39,47 +58,20 @@ namespace ConsoleApp1
 						outputCellMaxLength = resultTable[i, j].ToString().Length;
 				}
 			}
-			int outputCellCurrentLength;			
-			string outputCell = "*"; 
-			outputCellCurrentLength = outputCell.Length;//выводим красиво первый элемент
-			if (outputCell.Length < outputCellMaxLength)
+
+			OutputWithPaddingRight("*", outputCellMaxLength);
+			for (int i = 0; i < rowLength; i++) //цикл, формирующий первую строку (она отличается по принципу формирования от всех остальных строк)
 			{
-				for (int i = 0; i < outputCellMaxLength - outputCellCurrentLength; i++)
-					outputCell = " " + outputCell;
-			}
-			Write(outputCell + " "); 
-			for (int i = 0; i < rowLength; i++) //цикл, формирующий первую строку (она отличается по принципу формирования от всех остальных строк
-			{
-				outputCell = multiplicatorRow[i].ToString();
-				outputCellCurrentLength = outputCell.Length;
-				if (outputCell.Length < outputCellMaxLength)
-				{
-					for (int j = 0; j < (outputCellMaxLength - outputCellCurrentLength); j++)
-						outputCell = " " + outputCell;
-				}
-				Write(outputCell + " ");
+				OutputWithPaddingRight(multiplicatorRow[i].ToString(), outputCellMaxLength);
 			}
 			WriteLine();
+
 			for (int i = 0; i< columnLength; i++) //ну и вывод всей таблицы
 			{
-				outputCell = multiplicatorColumn[i].ToString();
-				outputCellCurrentLength = outputCell.Length;
-				if (outputCell.Length < outputCellMaxLength)
-				{
-					for (int j = 0; j < outputCellMaxLength - outputCellCurrentLength; j++)
-						outputCell = " " + outputCell;
-				}
-				Write(outputCell + " ");
+				OutputWithPaddingRight(multiplicatorColumn[i].ToString(), outputCellMaxLength);
 				for (int j = 0; j<rowLength; j++)
 				{
-					outputCell = resultTable[j,i].ToString();
-					outputCellCurrentLength = outputCell.Length;
-					if (outputCell.Length < outputCellMaxLength)
-					{
-						for (int k = 0; k < (outputCellMaxLength - outputCellCurrentLength); k++)
-							outputCell = " " + outputCell;
-					}
-					Write(outputCell + " ");
+					OutputWithPaddingRight(resultTable[j, i].ToString(), outputCellMaxLength);
 				}
 				WriteLine();
 			}
