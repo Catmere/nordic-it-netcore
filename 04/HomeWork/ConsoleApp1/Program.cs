@@ -24,7 +24,7 @@ namespace ConsoleApp1
                 const int bigContainerSize = 20, mediumContainerSize = 5;
                 int bigContainerAmount = 0, mediumContainerAmount = 0, smallContaineramount = 0;
 
-                bigContainerAmount = Convert.ToInt32(Math.Truncate((Math.Ceiling(inputVolume))/ bigContainerSize));
+                bigContainerAmount = Convert.ToInt32(Math.Truncate((Math.Ceiling(inputVolume))/ bigContainerSize)); //сначала доводим до целого, потом обрезаем остаток и преобразовываем в int
                 inputVolume -= bigContainerAmount * bigContainerSize;
                 if (inputVolume>0)
                 {
@@ -55,21 +55,23 @@ namespace ConsoleApp1
                 if (usingContainers == 0)
                 {
                     Console.WriteLine("Сока нет!");
-                }
-                Console.WriteLine("Потребуются следующие контейнеры:");
-                if ((usingContainers & Containers.Big) == Containers.Big)
+                } else
                 {
-                    Console.WriteLine($"20 л: {bigContainerAmount} шт.");
+                    Console.WriteLine("Потребуются следующие контейнеры:");
+                    if ((usingContainers & Containers.Big) == Containers.Big)
+                    {
+                        Console.WriteLine($"20 л: {bigContainerAmount} шт.");
+                    }
+                    if ((usingContainers & Containers.Medium) == Containers.Medium)
+                    {
+                        Console.WriteLine($"5 л: {mediumContainerAmount} шт.");
+                    }
+                    if ((usingContainers & Containers.Small) == Containers.Small)
+                    {
+                        Console.WriteLine($"1 л: {smallContaineramount} шт.");
+                    }
                 }
-                if ((usingContainers & Containers.Medium) == Containers.Medium)
-                {
-                    Console.WriteLine($"5 л: {mediumContainerAmount} шт.");
-                }
-                if ((usingContainers & Containers.Small) == Containers.Small)
-                {
-                    Console.WriteLine($"1 л: {smallContaineramount} шт.");
-                }
-
+                
                 Console.WriteLine("Введите \"repeat\" для повторения программы");
                 repeatLine = Console.ReadLine();
             } while (repeatLine == repeater);
