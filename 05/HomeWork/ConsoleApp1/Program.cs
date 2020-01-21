@@ -17,6 +17,8 @@ namespace ConsoleApp1
             Console.WriteLine(" 1) Прямоугольник;");
             Console.WriteLine(" 2) Равносторонний треугольник;");
             Console.WriteLine(" 3) Круг");
+            Console.WriteLine();
+            Console.Write("Выбранный тип: ");
             double square = 0, perimeter = 0;
 
             try
@@ -25,41 +27,39 @@ namespace ConsoleApp1
                 switch ((int)chosenFigure)
                 {
                     case 1:
-                        Console.WriteLine("Введите последовательно ширину и высоту");
+                        Console.Write("Введите ширину: ");
                         double width = double.Parse(Console.ReadLine());
-                        if (width < 0)
-                            throw new Exception("Введено отрицательное значение!");
+                        Console.Write("Введите высоту: ");
                         double height = double.Parse(Console.ReadLine());
-                        if (height < 0)
-                            throw new Exception("Введено отрицательное значение!");
+                        if ((height < 0) || (width <0 ))
+                            throw new ArgumentOutOfRangeException("Введено отрицательное значение!");
                         square = height * width;
                         perimeter = (height + width) * 2;
                         break;
                     case 2:
-                        Console.WriteLine("Введите длину стороны");
+                        Console.Write("Введите длину стороны: ");
                         double side = double.Parse(Console.ReadLine());
                         if (side < 0)
-                            throw new Exception("Введено отрицательное значение!");
+                            throw new ArgumentOutOfRangeException("Введено отрицательное значение!");
                         square = (Math.Pow(side, 2) * Math.Sqrt(3)) / 4;
                         perimeter = side * 3;
                         break;
                     case 3:
-                        Console.WriteLine("Введите диаметр");
+                        Console.Write("Введите диаметр: ");
                         double diameter = double.Parse(Console.ReadLine());
                         if (diameter < 0)
-                            throw new Exception("Введено отрицательное значение!");
+                            throw new ArgumentOutOfRangeException("Введено отрицательное значение!");
                         square = Math.PI * Math.Pow(diameter / 2, 2);
                         perimeter = Math.PI * diameter;
                         break;
                     default:
-                        Console.WriteLine("Вы ввели неверное значение!");
-                        return;           
+                        throw new ArgumentOutOfRangeException("Введено значение вне заданных границ!");                             
                 }
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Введено нечисловое значение!");
+                Console.WriteLine(e.Message);
                 Console.ResetColor();
                 throw;
             }
@@ -70,16 +70,21 @@ namespace ConsoleApp1
                 Console.ResetColor();
                 throw;
             }
-            catch
+            catch (Exception e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Неизвестная ошибка!");
+                Console.WriteLine(e.Message);
                 Console.ResetColor();
                 throw;
             }
-            
-            Console.WriteLine($"Площадь поверхности: {square}");
-            Console.WriteLine($"Длина периметра: {perimeter}");
+
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Площадь поверхности: {Math.Round(square,2)} кв. см");
+            Console.WriteLine($"Длина периметра: {Math.Round(perimeter, 2)} см");
+            Console.ResetColor();
+            Console.ReadKey();
         }
     }
 }
