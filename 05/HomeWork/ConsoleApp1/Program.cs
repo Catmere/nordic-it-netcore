@@ -19,7 +19,7 @@ namespace ConsoleApp1
             Console.WriteLine(" 3) Круг");
             Console.WriteLine();
             Console.Write("Выбранный тип: ");
-            double square = 0, perimeter = 0;
+            double square, perimeter;
 
             try
             {
@@ -31,10 +31,15 @@ namespace ConsoleApp1
                         double width = double.Parse(Console.ReadLine());
                         Console.Write("Введите высоту: ");
                         double height = double.Parse(Console.ReadLine());
-                        if ((height < 0) || (width <0 ))
+                        if ((height < 0) || (width < 0))
                             throw new ArgumentOutOfRangeException("Введено отрицательное значение!");
-                        square = height * width;
-                        perimeter = (height + width) * 2;
+                        else if (height == 0)
+                            perimeter = width;
+                        else if (width == 0)
+                            perimeter = height;
+                        else
+                            perimeter = (height + width) * 2;
+                        square = height * width;                        
                         break;
                     case 2:
                         Console.Write("Введите длину стороны: ");
