@@ -20,19 +20,15 @@ namespace ConsoleApp1
 			foreach (char symbol in buffArray)
 			{
 				if (bracketDictionary.ContainsValue(symbol))
+				{
 					stackOfBrackets.Push(symbol);
+				}
 				else if (bracketDictionary.ContainsKey(symbol))
 				{
 					if (stackOfBrackets.Count > 0 && stackOfBrackets.Peek() == bracketDictionary[symbol])
 						stackOfBrackets.Pop();
 					else
 						output = false;
-				}
-				else
-				{
-					Console.WriteLine("Вы ввели не только скобки!");
-					output = false;
-					break;
 				}
 			}
 			if (stackOfBrackets.Count > 0)
