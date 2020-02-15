@@ -27,13 +27,12 @@ namespace ConsoleApp1
                 return isOutdated;
             }
         }
-        public ReminderItem() { }
         public ReminderItem(string alarmMessage, DateTimeOffset alarmDate)
         {
             AlarmDate = alarmDate;
             AlarmMessage = alarmMessage;
         }
-        public void WriteProperties()
+        public virtual void WriteProperties()
         {
             string outdated = IsOutdated
                 ? "будильник не просрочен"
