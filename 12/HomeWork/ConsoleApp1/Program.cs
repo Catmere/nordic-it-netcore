@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleApp1
 {
@@ -11,7 +12,8 @@ namespace ConsoleApp1
 
             Console.Write("Введите количество напоминаний:");
             long amountOfReminders = long.Parse(Console.ReadLine());
-            ReminderItem[] reminders = new ReminderItem[amountOfReminders];
+            ReminderItem reminder;
+            List<ReminderItem> reminders = new List<ReminderItem>();
             byte reminderType = 0;
 
             for (int i = 0; i < amountOfReminders; i++)
@@ -41,7 +43,8 @@ namespace ConsoleApp1
                     switch (reminderType)
                     {
                         case 1:
-                            reminders[i] = new ReminderItem(reminderMessage, reminderDateTime);
+                            reminder = new ReminderItem(reminderMessage, reminderDateTime);
+                            reminders.Add(reminder);
                             break;
                         case 2:
                             Console.Write("Введите название чата: ");
@@ -49,13 +52,15 @@ namespace ConsoleApp1
                             Console.Write("Введите название аккаунта: ");
                             reminderAccountName = Console.ReadLine();
 
-                            reminders[i] = new ChatReminderItem(reminderMessage, reminderDateTime, reminderChatName, reminderAccountName);
+                            reminder = new ChatReminderItem(reminderMessage, reminderDateTime, reminderChatName, reminderAccountName);
+                            reminders.Add(reminder);
                             break;
                         case 3:
                             Console.Write("Введите номер телефона: ");
                             reminderPhoneNumber = Console.ReadLine();
 
-                            reminders[i] = new PhoneReminderItem(reminderMessage, reminderDateTime, reminderPhoneNumber);
+                            reminder = new PhoneReminderItem(reminderMessage, reminderDateTime, reminderPhoneNumber);
+                            reminders.Add(reminder);
                             break;
                     }                    
                 }
@@ -68,6 +73,7 @@ namespace ConsoleApp1
             }
             for (int i = 0; i < amountOfReminders; i++)
             {
+                Console.WriteLine($"Напоминание №{i + 1}:");
                 reminders[i].WriteProperties();
             }
 

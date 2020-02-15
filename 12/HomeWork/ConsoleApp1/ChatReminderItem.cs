@@ -18,7 +18,8 @@ namespace ConsoleApp1
             string outdated = IsOutdated
                 ? "будильник не просрочен"
                 : "будильник просрочен";
-            Console.WriteLine($"Дата и время будильника: {AlarmDate}, текст будильника: {AlarmMessage}," +
+            Console.WriteLine($"{GetType().Name} - напоминание для чата" +
+                $"\nДата и время будильника: {AlarmDate}, текст будильника: {AlarmMessage}," +
                 $"\nвремя до срабатывания будильника: {TimeToAlarm}, {outdated}," +
                 $"\nназвание чата: {ChatName}, название аккаунта: {AccountName}");
         }
