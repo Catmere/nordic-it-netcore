@@ -9,7 +9,6 @@ namespace Reminder.Storage.Core
         public ReminderItemStatus Status { get; set; }
         public DateTimeOffset AlarmDate { get; set; }
         public string AlarmMessage { get; set; }
-		public bool IsTimeToSend => TimeToAlarm <= TimeSpan.Zero;
         public TimeSpan TimeToAlarm
         {
             get

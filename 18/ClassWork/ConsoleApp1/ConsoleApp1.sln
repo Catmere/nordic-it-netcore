@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminder.App", "Reminder.App.csproj", "{E1E8A6C3-F279-4F03-B5FD-EBDD875CE492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reminder.App", "Reminder.App.csproj", "{E1E8A6C3-F279-4F03-B5FD-EBDD875CE492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminder.Storage.Core", "..\Reminder.Storage.Core\Reminder.Storage.Core.csproj", "{70D80FB1-EFD0-4D5E-B846-4A32F20AEDF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reminder.Storage.Core", "..\Reminder.Storage.Core\Reminder.Storage.Core.csproj", "{70D80FB1-EFD0-4D5E-B846-4A32F20AEDF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminder.Storage.InMemory", "..\ClassLibrary1\Reminder.Storage.InMemory.csproj", "{7EBA058B-D675-4D3B-81F9-384E53C6C2F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reminder.Storage.InMemory", "..\ClassLibrary1\Reminder.Storage.InMemory.csproj", "{7EBA058B-D675-4D3B-81F9-384E53C6C2F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminder.Storage.InMemory.Tests", "..\Reminder.Storage.InMemory.Tests\Reminder.Storage.InMemory.Tests.csproj", "{AB3C2D72-132E-4223-88B0-E2BE210E0F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reminder.Storage.InMemory.Tests", "..\Reminder.Storage.InMemory.Tests\Reminder.Storage.InMemory.Tests.csproj", "{AB3C2D72-132E-4223-88B0-E2BE210E0F6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminder.Domain", "..\Reminder.Domain\Reminder.Domain.csproj", "{0ACA6910-6A55-46E8-BE07-B44E4B983F16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{AB3C2D72-132E-4223-88B0-E2BE210E0F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB3C2D72-132E-4223-88B0-E2BE210E0F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB3C2D72-132E-4223-88B0-E2BE210E0F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ACA6910-6A55-46E8-BE07-B44E4B983F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ACA6910-6A55-46E8-BE07-B44E4B983F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ACA6910-6A55-46E8-BE07-B44E4B983F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ACA6910-6A55-46E8-BE07-B44E4B983F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
