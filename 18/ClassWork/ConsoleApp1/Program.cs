@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
+using MihaZupan;
 using Reminder.Domain;
 using Reminder.Domain.EventArgs;
+using Reminder.Receiver.Core;
+using Reminder.Receiver.Telegram;
+using Reminder.Sender.Core;
+using Reminder.Sender.Telegram;
 using Reminder.Storage.Core;
 using Reminder.Storage.InMemory;
 
@@ -13,8 +19,16 @@ namespace ConsoleApp1
        
         static void Main(string[] args)
         {
+            const string botToken = "1140904212:AAFW4RAEJWxNxgZmJ5IjGtsJxvAfSazAPtI";
+            const string proxyHost = "proxy.golyakov.net";
+            const int proxyPort = 1080;
+
+            IWebProxy proxy = new HttpToSocks5Proxy(proxyHost, proxyPort);
+
             IReminderStorage storage = new InMemoryReminderStorage();
-            ReminderDomain domain = new ReminderDomain(storage);
+            IReminderReceiver reciever = new TelegramReminderReceiver(botToken, proxy);
+            IReminderSender sender = new TelegramReminderSender(botToken, proxy);
+            ReminderDomain domain = new ReminderDomain(storage, reciever, sender);
 
             /*((InMemoryReminderStorage)storage).RunWhenAddingDone = (sender, e) =>
 			{
@@ -35,12 +49,12 @@ namespace ConsoleApp1
             domain.ReminderItemSendingFailed += OnReminderItemSendingFailure;
 
 
-            Guid itemGuid = Guid.NewGuid();
+          /*  Guid itemGuid = Guid.NewGuid();
             storage.Add(new ReminderItem("Hello World!",
                 DateTimeOffset.Now + TimeSpan.FromSeconds(1),
                 itemGuid,
                 "TelegramContactId"
-                ));
+                ));*/
             
 
             domain.Run();
