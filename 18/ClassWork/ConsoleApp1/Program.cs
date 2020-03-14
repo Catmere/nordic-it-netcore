@@ -16,11 +16,11 @@ namespace ConsoleApp1
 {
     class Program
     {
-       
+
         static void Main(string[] args)
         {
             const string botToken = "1140904212:AAFW4RAEJWxNxgZmJ5IjGtsJxvAfSazAPtI";
-            const string proxyHost = "proxy.golyakov.net";
+            const string proxyHost = "96.96.33.133";
             const int proxyPort = 1080;
 
             IWebProxy proxy = new HttpToSocks5Proxy(proxyHost, proxyPort);
@@ -47,15 +47,19 @@ namespace ConsoleApp1
 
             domain.ReminderItemStatusChanged += OnReminderItemStatusChange;
             domain.ReminderItemSendingFailed += OnReminderItemSendingFailure;
+            reciever.MessageRecieved += OnMessageRecieved;
+            domain.MessageParsed += OnMessageParsed;
+            domain.MessageParsingFailed += OnMessageParsingFailure;
+            domain.ReminderIsOutdated += OnRecievingOutdatedReminder;
 
 
-          /*  Guid itemGuid = Guid.NewGuid();
-            storage.Add(new ReminderItem("Hello World!",
+            /*Guid itemGuid = Guid.NewGuid();
+            storage.Add(new ReminderItem("А вот так можно использовать твой ID в телеге",
                 DateTimeOffset.Now + TimeSpan.FromSeconds(1),
                 itemGuid,
-                "TelegramContactId"
+                "66229908"
                 ));*/
-            
+
 
             domain.Run();
             Console.WriteLine("Press any key to close app...");
@@ -80,12 +84,41 @@ namespace ConsoleApp1
         }
         private static void OnReminderItemStatusChange(object sender, ReminderEventStatusChangedEventArgs e)
         {
-            Console.WriteLine($"Reminder {e.Reminder.ContactID} now changed status from {e.Reminder.PreviousStatus} to {e.Reminder.Status}!");
+            Console.WriteLine($"Reminder for ID {e.Reminder.ContactID} now changed status from {e.Reminder.PreviousStatus} to {e.Reminder.Status}!");
         }
         private static void OnReminderItemSendingFailure(object sender, ReminderEventSendingFailedEventArgs e)
         {
-            Console.WriteLine($"Reminder {e.Reminder.ContactID} failed to send with exception {e.Reminder.SeenException.Message}!");
+            Console.WriteLine($"Reminder for ID {e.Reminder.ContactID} failed to send with exception {e.Reminder.SeenException.Message}!");
         }
-        
+        private static void OnMessageRecieved(object sender, MessageReceivedEventArgs e)
+        {
+            Console.WriteLine($"Recieved message from {e.ContactId} with message {e.Message}, parsing...");
+        }
+        private static void OnMessageParsed(object sender, MessageEventParsedEventArgs e)
+        {
+            var timerForParsed = new Timer(
+                            (x) => Console.WriteLine($"Successfully parsed message from {e.ParsedMessage.ContactId}:" +
+                            $" result date - {e.ParsedMessage.AlarmDateTime:u}," +
+                            $" message - \"{e.ParsedMessage.Message}\"!"),
+                            null,
+                            TimeSpan.FromMilliseconds(50),
+                            TimeSpan.Zero);
+        }
+        private static void OnMessageParsingFailure(object sender, MessageEventParsingFailedEventArgs e)
+        {
+            var timerForParsingFailure = new Timer(
+                            (x) => Console.WriteLine($"Parsing failed at message from {e.ContactId} with text \"{e.Message}\""),
+                            null,
+                            TimeSpan.FromMilliseconds(50),
+                            TimeSpan.Zero);
+        }
+        private static void OnRecievingOutdatedReminder(object sender, MessageEventParsedEventArgs e)
+        {
+            var timerForOutdated = new Timer(
+                            (x) => Console.WriteLine($"Reminder from {e.ParsedMessage.ContactId} \"{e.ParsedMessage.Message}\" is outdated!"),
+                            null,
+                            TimeSpan.FromMilliseconds(50),
+                            TimeSpan.Zero);
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Reminder.Storage.Core
         public ReminderItemStatus Status { get; set; }
         public DateTimeOffset AlarmDate { get; set; }
         public string AlarmMessage { get; set; }
-		public bool IsTimeToSend => TimeToAlarm <= TimeSpan.Zero;
+        public bool IsTimeToSend => TimeToAlarm <= TimeSpan.Zero;
         public TimeSpan TimeToAlarm
         {
             get
@@ -22,7 +22,7 @@ namespace Reminder.Storage.Core
             get
             {
                 bool isOutdated;
-                if (TimeToAlarm > TimeSpan.Zero)
+                if (TimeToAlarm < TimeSpan.Zero)
                     isOutdated = true;
                 else
                     isOutdated = false;

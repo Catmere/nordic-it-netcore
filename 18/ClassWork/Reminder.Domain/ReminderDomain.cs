@@ -20,6 +20,11 @@ namespace Reminder.Domain
         public event EventHandler<ReminderEventStatusChangedEventArgs> ReminderItemStatusChanged;
         public event EventHandler<ReminderEventSendingFailedEventArgs> ReminderItemSendingFailed;
 
+        public event EventHandler<MessageEventParsedEventArgs> MessageParsed;
+        public event EventHandler<MessageEventParsingFailedEventArgs> MessageParsingFailed;
+        public event EventHandler<MessageEventParsedEventArgs> ReminderIsOutdated;
+
+
 
         public ReminderDomain(IReminderStorage storage, IReminderReceiver receiver, IReminderSender sender)
         {
@@ -95,9 +100,11 @@ namespace Reminder.Domain
         {
             //parsing of the e.Message to get alarm message and date
             var parsedMessage = MessageParser.ParseMessage(e.Message);
+            
             if (parsedMessage == null)
             {
                 //raise event MessageParsingFailed for the TG sender
+                MessageParsingFailed?.Invoke(this, new MessageEventParsingFailedEventArgs(e.Message, e.ContactId));
                 try
                 {
                     _sender.Send(e.ContactId, "Wrong format, try again!");                    
@@ -108,15 +115,27 @@ namespace Reminder.Domain
                 }
                 return;
             }
+            
             var item = new ReminderItem(
                 parsedMessage.Message, 
                 parsedMessage.alarmDate, 
                 Guid.NewGuid(), 
                 e.ContactId);
+            if (MessageParsed != null)
+                MessageParsed(this, new MessageEventParsedEventArgs(new ParsedMessageModel(parsedMessage.alarmDate, parsedMessage.Message, e.ContactId)));
             //adding new ReminderItem to the storage
+            if (item.IsOutdated)
+            {
+                ReminderIsOutdated?.Invoke(this, new MessageEventParsedEventArgs(new ParsedMessageModel(parsedMessage.alarmDate, parsedMessage.Message, e.ContactId)));
+                _sender.Send(e.ContactId, "Reminder is outdated!");
+                return;
+            }
+                
             _storage.Add(item);
             //raise event ReminderItemAdded to send the message for OK
-            _sender.Send(e.ContactId, "Reminder added!"); //TODO: расширить функционал
+            _sender.Send(e.ContactId, $"Reminder \"{item.AlarmMessage}\"" +
+                $" will be sent on {item.AlarmDate} " +
+                $"(in {item.TimeToAlarm.ToString(@"d\.hh\:mm\:ss")})!"); //TODO: расширить функционал
         }
     }
 }
