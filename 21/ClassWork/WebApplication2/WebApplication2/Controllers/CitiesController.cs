@@ -44,5 +44,34 @@ namespace WebApplication2.Controllers
             _store.Cities.Add(city);
             return CreatedAtRoute("GetCityById", new { id = city.Id }, city);
         }
+        [HttpPut]
+        public IActionResult EditCity([FromBody] City cityEdited)
+        {
+            var city = _store.Cities.FirstOrDefault(x => x.Id == cityEdited.Id);
+            if (city != null)
+            {
+                var cityId = _store.Cities.IndexOf(city);
+                _store.Cities[cityId] = cityEdited;
+                return Ok(new JsonResult(cityEdited));
+            }
+            else
+            {
+                return NotFound("Not Found");
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteCity ([FromBody] int id)
+        {
+            var city = _store.Cities.FirstOrDefault(x => x.Id == id);
+            if (city != null)
+            {
+                _store.Cities.Remove(city);
+                return Ok($"Removed id{id}");
+            }
+            else
+            {
+                return NotFound("Not Found");
+            }
+        }
     }
 }

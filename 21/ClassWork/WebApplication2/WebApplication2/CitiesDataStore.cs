@@ -18,7 +18,7 @@ namespace WebApplication2
             {
                 new City (1,"Moscow"),
                 new City (2, "Saint Petersburg"),
-                new City(3, "London")
+                new City (3, "London")
             };
         }
         public static CitiesDataStore GetInstance()
