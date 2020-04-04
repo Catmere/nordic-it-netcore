@@ -30,7 +30,20 @@ namespace ConsoleApp1
             IReminderSender sender = new TelegramReminderSender(botToken, proxy);
             ReminderDomain domain = new ReminderDomain(storage, reciever, sender);
 
-            
+            /*((InMemoryReminderStorage)storage).RunWhenAddingDone = (sender, e) =>
+			{
+				Console.WriteLine("Delegate New item added!");
+			};
+*/
+            /*((InMemoryReminderStorage)storage).OnAddSuccess += (sender, e) =>
+			{
+				Console.WriteLine("EVENT New item added!");
+			};
+			
+			((InMemoryReminderStorage)storage).OnUpdateSuccess += (sender, e) =>
+			{
+				Console.WriteLine("EVENT Item updated!");
+			};*/
 
             domain.ReminderItemStatusChanged += OnReminderItemStatusChange;
             domain.ReminderItemSendingFailed += OnReminderItemSendingFailure;
@@ -52,7 +65,22 @@ namespace ConsoleApp1
             Console.WriteLine("Press any key to close app...");
             Console.ReadKey();
 
-            
+            /* List<ReminderItem> list = storage.Get(ReminderItemStatus.Awaiting);
+			 foreach(ReminderItem x in list)
+			 {
+				 Console.WriteLine(x.ToString());
+			 }*/
+
+            /*storage.Update(new ReminderItem("Hello World!",
+				DateTimeOffset.Now,
+				itemGuid,
+				"TelegramContact ID"
+				));
+			list = storage.Get(ReminderItemStatus.Awaiting);
+			foreach (ReminderItem x in list)
+			{
+				Console.WriteLine(x.ToString());
+			}*/
         }
         private static void OnReminderItemStatusChange(object sender, ReminderEventStatusChangedEventArgs e)
         {
