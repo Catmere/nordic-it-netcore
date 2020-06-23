@@ -23,7 +23,7 @@ namespace ConsoleApp1
             const string proxyHost = "96.96.33.133";
             const int proxyPort = 1080;
 
-            IWebProxy proxy = new HttpToSocks5Proxy(proxyHost, proxyPort);
+            IWebProxy proxy = null; // new HttpToSocks5Proxy(proxyHost, proxyPort);
 
             IReminderStorage storage = new InMemoryReminderStorage();
             IReminderReceiver reciever = new TelegramReminderReceiver(botToken, proxy);

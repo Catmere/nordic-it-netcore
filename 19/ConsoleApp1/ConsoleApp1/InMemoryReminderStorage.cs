@@ -5,9 +5,6 @@ using System.Collections.Generic;
 namespace Reminder.Storage.InMemory
 {
 
-
-
-
 	public class InMemoryReminderStorage : IReminderStorage
 
 	{
@@ -24,7 +21,7 @@ namespace Reminder.Storage.InMemory
 		public void Add(ReminderItem reminderItem)
 		{
 			_storage.Add(reminderItem.Id, reminderItem);
-			RunWhenEventDone(this, EventArgs.Empty);
+			//RunWhenEventDone(this, EventArgs.Empty);
 		}
 
 		public ReminderItem Get(Guid id)

@@ -11,7 +11,7 @@ namespace ConsoleApp1
 		{
 			IReminderStorage storage = new InMemoryReminderStorage();
 
-			/*			((InMemoryReminderStorage)storage).RunWhenEventDone
+			/*((InMemoryReminderStorage)storage).RunWhenEventDone
 			*/
 
 			storage.Add(new ReminderItem("Hello World!",
